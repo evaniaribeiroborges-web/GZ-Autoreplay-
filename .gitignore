@@ -1,0 +1,15 @@
+# Gradle / Android
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+captures/
+.idea/
+*.iml
+
+# NUNCA versionar chaves de assinatura nem senhas
+*.jks
+*.keystore
+keystore*.txt
+LEIA-ME-SEGREDOS*.txt

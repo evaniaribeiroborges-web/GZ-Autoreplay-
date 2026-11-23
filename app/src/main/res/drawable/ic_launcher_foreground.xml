@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ícone original do GZ AutoReplay: balão de conversa (branco) com raio (automático). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Balão de conversa -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M38,32 H70 A8,8 0 0 1 78,40 V62 A8,8 0 0 1 70,70 H48 L36,82 V70 H38 A8,8 0 0 1 30,62 V40 A8,8 0 0 1 38,32 Z" />
+
+    <!-- Raio -->
+    <path
+        android:fillColor="#FFF59E0B"
+        android:pathData="M57,36 L45,53 H53 L51,66 L63,48 H55 Z" />
+</vector>

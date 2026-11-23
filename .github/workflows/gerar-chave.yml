@@ -1,0 +1,54 @@
+name: Gerar chave de assinatura (rodar UMA vez)
+
+# Cria a chave oficial do GZ AutoReplay dentro do GitHub, sem precisar de computador.
+# Os segredos ficam num arquivo que expira em 1 dia: baixe, faça backup e cadastre
+# os 4 Secrets conforme docs/ASSINATURA.md. NÃO rode de novo depois de cadastrar.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Gerar chave
+        run: |
+          set -euo pipefail
+          mkdir -p chave
+          SENHA="$(openssl rand -base64 48 | tr -dc 'A-Za-z0-9' | head -c 24)"
+          ALIAS="gzautoreplay"
+
+          keytool -genkeypair \
+            -keystore chave/gz-release.jks \
+            -storetype PKCS12 \
+            -alias "$ALIAS" \
+            -keyalg RSA -keysize 2048 -validity 10950 \
+            -storepass "$SENHA" -keypass "$SENHA" \
+            -dname "CN=GZ AutoReplay, O=GZ AutoReplay, C=BR" >/dev/null
+
+          base64 -w0 chave/gz-release.jks > chave/1-GZ_KEYSTORE_BASE64.txt
+          printf '%s' "$ALIAS" > chave/2-GZ_KEY_ALIAS.txt
+          printf '%s' "$SENHA" > chave/3-GZ_KEYSTORE_PASSWORD.txt
+          printf '%s' "$SENHA" > chave/4-GZ_KEY_PASSWORD.txt
+
+          cat > chave/LEIA-ME-SEGREDOS.txt <<'EOF'
+          GZ AutoReplay - chave de assinatura
+          - gz-release.jks  = a chave. Guarde em pelo menos 2 lugares seguros (fora do GitHub).
+          - Arquivos 1 a 4  = o conteúdo de cada um vai num Secret do GitHub com o mesmo nome.
+          - A senha (arquivos 3 e 4) é a mesma. Sem a chave E a senha, não há como atualizar o app.
+          EOF
+
+      - name: Guardar arquivos (expiram em 1 dia)
+        uses: actions/upload-artifact@v4
+        with:
+          name: gz-chave-assinatura-SECRETO
+          path: chave/
+          retention-days: 1

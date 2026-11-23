@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GZ AutoReplay</string>
+    <string name="home_tagline">Respostas automáticas para o WhatsApp</string>
+    <string name="home_status_title">Etapa 0 concluída ✔</string>
+    <string name="home_status_body">A base do app está instalada e funcionando. A automação ainda não existe: ela será construída nas próximas etapas.</string>
+</resources>
