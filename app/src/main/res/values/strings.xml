@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GZ AutoReplay</string>
-    <string name="home_tagline">Respostas automáticas para o WhatsApp</string>
-    <string name="home_status_title">Etapa 0 concluída ✔</string>
-    <string name="home_status_body">A base do app está instalada e funcionando. A automação ainda não existe: ela será construída nas próximas etapas.</string>
+    <string name="rules_tagline">Respostas automáticas para o WhatsApp</string>
+    <string name="rules_summary_total">Regras</string>
+    <string name="rules_summary_active">Ativas</string>
+    <string name="rules_empty_title">Nenhuma regra ainda</string>
+    <string name="rules_empty_body">Toque em “Nova regra” para criar a primeira resposta automática.</string>
+    <string name="rules_add">Nova regra</string>
+    <string name="rules_add_title">Nova regra</string>
+    <string name="rules_field_keyword">Palavra-chave</string>
+    <string name="rules_field_response">Resposta automática</string>
+    <string name="rules_field_condition">Condição</string>
+    <string name="rules_ignore_case">Ignorar maiúsculas e minúsculas</string>
+    <string name="rules_ignore_case_hint">Preço também encontra preço</string>
+    <string name="rules_delete">Excluir</string>
+    <string name="rules_delete_title">Excluir regra?</string>
+    <string name="rules_delete_message">A regra “%1$s” será removida. Esta ação não pode ser desfeita.</string>
+    <string name="rules_delete_confirm">Excluir</string>
+    <string name="rules_status_active">Ativa</string>
+    <string name="rules_status_inactive">Desativada</string>
+    <string name="rules_case_ignored">ignora maiúsculas</string>
+    <string name="rules_case_sensitive">diferencia maiúsculas</string>
+    <string name="rules_version">Versão %1$s (build %2$s)</string>
+    <string name="match_contains">Contém</string>
+    <string name="match_equals">Igual a</string>
+    <string name="match_starts_with">Começa com</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Salvar</string>
+    <string name="error_empty_keyword">Informe a palavra-chave.</string>
+    <string name="error_keyword_too_long">A palavra-chave pode ter no máximo 100 caracteres.</string>
+    <string name="error_empty_response">Escreva a resposta automática.</string>
+    <string name="error_response_too_long">A resposta pode ter no máximo 1000 caracteres.</string>
 </resources>

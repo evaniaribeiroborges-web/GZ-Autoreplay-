@@ -1,22 +1,50 @@
 # GZ AutoReplay — Arquitetura
 
 ## Camadas (pacote `com.gzautoreplay.app`)
-- `domain/` — Kotlin puro: modelos, motor de regras, interfaces de repositório. Sem Android.
-- `data/` — Room, DataStore, implementações dos repositórios (a partir da etapa 2).
+- `domain/` — Kotlin puro: modelos, motor de regras, validação, edição e interfaces de repositório. Sem Android.
+- `data/` — armazenamento e serialização. Hoje: SharedPreferences + JSON. A partir da etapa 2: Room.
 - `service/` — leitor de notificações e envio da resposta (a partir da etapa 3).
 - `ui/` — telas Jetpack Compose e ViewModels.
 
-Regra de dependência: `ui` e `service` e `data` dependem de `domain`; `domain` não depende de ninguém.
+Regra de dependência: `ui`, `service` e `data` dependem de `domain`; `domain` não depende de ninguém.
+
+## Módulo de regras (etapa 1)
+```
+domain/rules/
+├─ MatchType.kt        CONTAINS, EQUALS, STARTS_WITH
+├─ Rule.kt             modelo da regra (id, palavra-chave, resposta, condição, ignoreCase, enabled)
+├─ RuleDraft.kt        dados digitados pelo usuário, antes de virar regra
+├─ RuleValidator.kt    erros de validação (vazio, muito longo)
+├─ RuleMatcher.kt      motor: quais regras correspondem a uma mensagem
+├─ RuleEditor.kt       criar, ativar/desativar e excluir (sempre devolve nova lista)
+├─ RuleSummary.kt      contagem total e ativas
+└─ RuleRepository.kt   contrato de armazenamento
+
+data/storage/
+├─ KeyValueStore.kt                  interface chave-valor (testável)
+└─ SharedPreferencesKeyValueStore.kt implementação Android
+
+data/rules/
+├─ RuleJsonCodec.kt        regras <-> JSON com campo "version"
+└─ RuleRepositoryImpl.kt   salva/carrega; faz backup de dados corrompidos
+
+ui/rules/
+├─ RulesScreen.kt       lista, resumo, ativar/desativar, excluir
+├─ AddRuleDialog.kt     formulário de nova regra
+└─ RulesViewModel.kt    coordena tela e armazenamento
+```
+
+Fluxo: a tela chama o ViewModel → o `RuleEditor` (domínio) calcula a nova lista → o `RuleRepositoryImpl` salva → a tela atualiza.
 
 ## Pastas
 ```
 GZ-Autoreplay/
 ├─ .github/workflows/   build.yml, gerar-chave.yml
-├─ docs/
+├─ docs/                ARQUITETURA, DECISOES, PROGRESSO, ASSINATURA, GUIAS
 └─ app/src/
-   ├─ main/java/com/gzautoreplay/app/  domain, ui (e depois data, service)
+   ├─ main/java/com/gzautoreplay/app/  domain, data, ui (service na etapa 3)
    ├─ main/res/
-   └─ test/
+   └─ test/            testes unitários de domain, data e AppIdentity
 ```
 
 ## Limitações do Android (não vamos contorná-las)
@@ -26,9 +54,9 @@ GZ-Autoreplay/
 - Xiaomi/HyperOS pode encerrar o serviço em segundo plano; será tratado na etapa 7.
 
 ## Etapas
-0. Base, CI e APK instalável **(atual)**
-1. Motor de regras + testes
-2. Banco de dados e telas de regras
+0. Base, CI e APK instalável **(concluída)**
+1. Motor de regras + testes + tela de regras **(atual, aguardando validação)**
+2. Banco Room e migração dos dados da etapa 1
 3. Permissão de notificações (onboarding)
 4. Resposta automática, chave geral, intervalo
 5. Filtros individual/grupo

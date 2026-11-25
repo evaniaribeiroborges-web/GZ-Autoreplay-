@@ -7,8 +7,9 @@ plugins {
 // O GitHub Actions envia o número da execução (-PgzVersionCode=N).
 // Assim, cada APK novo tem versionCode MAIOR que o anterior e o Android
 // aceita instalar por cima, mantendo os dados do app.
-val gzVersionCode = (findProperty("gzVersionCode") as String?)?.toIntOrNull() ?: 1
-val gzVersionName = "0.1.0"
+// Fallback para builds locais. No GitHub Actions o número sempre vem de -PgzVersionCode.
+val gzVersionCode = (findProperty("gzVersionCode") as String?)?.toIntOrNull() ?: 2
+val gzVersionName = "0.2.0"
 
 // A chave de assinatura chega por variáveis de ambiente (GitHub Secrets).
 // Ela nunca fica gravada no repositório.
@@ -73,6 +74,10 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
+    // ViewModel para a tela de regras (estado sobrevive à rotação de tela).
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     testImplementation(libs.junit)
+    // Somente para testes: o org.json do Android é um "stub" em testes unitários no computador.
+    testImplementation(libs.org.json)
 }

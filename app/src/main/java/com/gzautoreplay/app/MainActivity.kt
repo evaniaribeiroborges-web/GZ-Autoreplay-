@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.gzautoreplay.app.ui.home.HomeScreen
+import com.gzautoreplay.app.ui.rules.RulesScreen
 import com.gzautoreplay.app.ui.theme.GZAutoReplayTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GZAutoReplayTheme {
-                HomeScreen()
+                RulesScreen()
             }
         }
     }
